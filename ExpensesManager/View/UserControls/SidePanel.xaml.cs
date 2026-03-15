@@ -12,6 +12,6 @@ public partial class SidePanel : UserControl
 
     private void BtnAddTransaction_OnClick(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        MessageBox.Show("Marysia to maly smrut");
     }
 }
