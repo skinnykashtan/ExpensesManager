@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:ExpensesManager"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="{x:Type Control}">
+            <Setter Property="FontFamily" Value="./Assets/Fonts/#Inter"/>
+        </Style>
+        
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="./Assets/Fonts/#Inter"/>
+        </Style>
     </Application.Resources>
 </Application>
