@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ExpensesManager"
         xmlns:userControls="clr-namespace:ExpensesManager.View.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280">
+        Title="Expense Manager" Height="720" Width="1280">
     <Grid Background="#EAF2F8">
         <Grid.RowDefinitions>
             <RowDefinition Height="86"/>
