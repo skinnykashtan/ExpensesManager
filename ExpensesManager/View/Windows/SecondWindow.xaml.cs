@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using ExpensesManager.Models;
 using ExpensesManager.View.UserControls;
+using ExpensesManager.ViewModels;
 
 namespace ExpensesManager.View.Windows;
 
@@ -9,17 +10,8 @@ public partial class SecondWindow : Window
     public SecondWindow()
     {
         InitializeComponent();
-        DataContext = this;
+        DataContext = new AddTransactionViewModel();
     }
-
-    public List<TransactionType> TransactionTypes
-    {
-        get => Enum.GetValues(typeof(TransactionType))
-            .Cast<TransactionType>()
-            .ToList();
-    }
-
-    public TransactionType SelectedTransactionType { get; set; }
     
-
+    
 }

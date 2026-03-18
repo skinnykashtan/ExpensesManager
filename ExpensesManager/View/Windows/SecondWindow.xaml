@@ -14,9 +14,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <ComboBox ItemsSource="{Binding TransactionTypes}">
-            
-        </ComboBox>
+        <ComboBox ItemsSource="{Binding TransactionTypes}"
+                  SelectedItem="{Binding SelectedTransactionType}"/>
+        
+        <TextBox Grid.Row="1" Text="{Binding SelectedTransactionType}"/> 
         
     </Grid>
 </Window>
