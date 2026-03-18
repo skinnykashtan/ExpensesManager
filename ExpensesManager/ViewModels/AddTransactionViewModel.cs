@@ -6,7 +6,8 @@ namespace ExpensesManager.ViewModels;
 
 public class AddTransactionViewModel : INotifyPropertyChanged
 {
-    public List<TransactionType> TransactionTypes { get; }
+    public List<TransactionType> TransactionTypes { get; } =
+        Enum.GetValues<TransactionType>().ToList();
 
     private TransactionType? _selectedTransactionType;
     public TransactionType? SelectedTransactionType
@@ -21,13 +22,6 @@ public class AddTransactionViewModel : INotifyPropertyChanged
                 NotifyPropertyChanged();
             }
         }
-    }
-
-    public AddTransactionViewModel()
-    {
-        TransactionTypes = Enum.GetValues(typeof(TransactionType))
-            .Cast<TransactionType>()
-            .ToList();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
