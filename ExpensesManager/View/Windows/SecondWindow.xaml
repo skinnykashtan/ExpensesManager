@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:ExpensesManager.View.Windows"
         xmlns:models="clr-namespace:ExpensesManager.Models"
+        xmlns:controls="clr-namespace:ExpensesManager.CustomControls"
         mc:Ignorable="d"
         Title="Add Transaction" Height="600" Width="400">
     <Grid>
@@ -17,7 +18,301 @@
         <ComboBox ItemsSource="{Binding TransactionTypes}"
                   SelectedItem="{Binding SelectedTransactionType}"/>
         
-        <TextBox Grid.Row="1" Text="{Binding SelectedTransactionType}"/> 
+        <!-- Income Tab -->
+        
+        <StackPanel Grid.Row="1">
+            
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedTransactionType}" Value="Income">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            
+            <!-- Amount field with validation -->
+            <StackPanel>
+                <Label Content="Amount*" FontSize="20" Margin="0,15,0,0"/>
+
+                <TextBox FontSize="20" x:Name="IncomeAmountBox"
+                         Width="250"
+                         HorizontalAlignment="Left"
+                         Margin="5"
+                         Text="{Binding AmountText,
+                          UpdateSourceTrigger=PropertyChanged,
+                           ValidatesOnNotifyDataErrors=True}" />
+
+                <TextBlock Foreground="Red"
+                           Margin="5,0,0,0"
+                           Height="20"
+                           Text="{Binding ElementName=IncomeAmountBox, Path=(Validation.Errors)[0].ErrorContent}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=IncomeAmountBox, Path=(Validation.HasError)}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+            
+            <!-- Date validation -->
+            <StackPanel>
+                <Label Content="Date*" FontSize="20"/>
+                
+                <controls:CustomWatermarkedDatePicker x:Name="IncomeDateBox" FontSize="20" Width="250" HorizontalAlignment="Left" Margin="5"
+                            SelectedDate="{Binding SelectedDate,
+                             UpdateSourceTrigger=PropertyChanged,
+                              ValidatesOnNotifyDataErrors=True}"/>
+                
+                <TextBlock Foreground="Red"
+                           Margin="5,0,0,0"
+                           Height="20"
+                           Text="{Binding ElementName=IncomeDateBox, Path=(Validation.Errors)[0].ErrorContent}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=IncomeDateBox, Path=(Validation.HasError)}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+            
+            <!-- Source field with validation -->
+            <Label Content="Source*" FontSize="20"/>
+            
+            <ComboBox x:Name="SourceComboBox" FontSize="20" Width="250" HorizontalAlignment="Left" Margin="5"
+                      ItemsSource="{Binding Sources}"
+                      SelectedItem="{Binding SelectedSource, 
+                                     UpdateSourceTrigger=PropertyChanged,
+                                     ValidatesOnNotifyDataErrors=True}"/>
+            
+            <TextBlock Foreground="Red"
+                       Margin="5,0,0,0"
+                       Height="20"
+                       Text="{Binding ElementName=SourceComboBox, Path=(Validation.Errors)[0].ErrorContent}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=SourceComboBox, Path=(Validation.HasError)}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            
+            <!-- Description -->
+            <Label Content="Description" FontSize="20"/>
+            
+            <TextBox FontSize="20" Width="350" Height="100" HorizontalAlignment="Left" Margin="5"
+                     TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
+                     VerticalScrollBarVisibility="Auto"/>
+            
+            <!-- Save btn -->
+            <Button Content="Save"
+                    Margin="0,30,0,0"
+                    Cursor="Hand"
+                    Height="30"
+                    Width="200"
+                    Foreground="#FFFFFF"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="BtnSaveTransaction_OnClick">
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="#76ACD9"
+                                CornerRadius="10">
+                
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#3A5F7D"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#4A6F8F"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
+        </StackPanel>
+        
+        <!-- Expense Tab -->
+        
+        <StackPanel Grid.Row="1">
+            
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedTransactionType}" Value="Expense">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            
+            <!-- Amount field with validation -->
+            <StackPanel>
+                <Label Content="Amount*" FontSize="20" Margin="0,15,0,0"/>
+
+                <TextBox FontSize="20" x:Name="ExpenseAmountBox"
+                         Width="250"
+                         HorizontalAlignment="Left"
+                         Margin="5"
+                         Text="{Binding AmountText,
+                          UpdateSourceTrigger=PropertyChanged,
+                           ValidatesOnNotifyDataErrors=True}" />
+
+                <TextBlock Foreground="Red"
+                           Height="20"
+                           Margin="5,0,0,0"
+                           Text="{Binding ElementName=ExpenseAmountBox, Path=(Validation.Errors)[0].ErrorContent}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ExpenseAmountBox, Path=(Validation.HasError)}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+            
+            <!-- Date field with validation -->
+            <StackPanel>
+                <Label Content="Date*" FontSize="20"/>
+                
+                <controls:CustomWatermarkedDatePicker x:Name="ExpenseDateBox" FontSize="20" Width="250" HorizontalAlignment="Left" Margin="5"
+                            SelectedDate="{Binding SelectedDate,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            ValidatesOnNotifyDataErrors=True}"/>
+                
+                <TextBlock Foreground="Red"
+                           Height="20"
+                           Margin="5,0,0,0"
+                           Text="{Binding ElementName=ExpenseDateBox, Path=(Validation.Errors)[0].ErrorContent}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ExpenseDateBox, Path=(Validation.HasError)}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+            
+            <!-- Category field with validation -->
+            <Label Content="Category*" FontSize="20"/>
+            
+            <ComboBox x:Name="CategoryComboBox" FontSize="20" Width="250" HorizontalAlignment="Left" Margin="5"
+                      ItemsSource="{Binding Categories}"
+                      SelectedItem="{Binding SelectedCategory,
+                                     UpdateSourceTrigger=PropertyChanged,
+                                     ValidatesOnNotifyDataErrors=True}"/>
+            
+            <TextBlock Foreground="Red"
+                       Height="20"
+                       Margin="5,0,0,0"
+                       Text="{Binding ElementName=CategoryComboBox, Path=(Validation.Errors)[0].ErrorContent}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Hidden"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=CategoryComboBox, Path=(Validation.HasError)}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            
+            <!-- Description -->
+            <Label Content="Description" FontSize="20"/>
+            
+            <TextBox FontSize="20" Width="350" Height="100" HorizontalAlignment="Left" Margin="5"
+                     TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
+                     VerticalScrollBarVisibility="Auto"/>
+            
+            <!-- Save btn -->
+            <Button Content="Save"
+                    Margin="0,30,0,0"
+                    Cursor="Hand"
+                    Height="30"
+                    Width="200"
+                    Foreground="#FFFFFF"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="BtnSaveTransaction_OnClick">
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="#76ACD9"
+                                CornerRadius="10">
+                
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"/>
+                
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#3A5F7D"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#4A6F8F"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            
+        </StackPanel>
         
     </Grid>
 </Window>
