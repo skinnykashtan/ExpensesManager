@@ -119,7 +119,7 @@
             
             <TextBox FontSize="20" Width="350" Height="100" HorizontalAlignment="Left" Margin="5"
                      TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
-                     VerticalScrollBarVisibility="Auto"/>
+                     VerticalScrollBarVisibility="Auto" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
             
             <!-- Save btn -->
             <Button Content="Save"
@@ -130,7 +130,7 @@
                     Foreground="#FFFFFF"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Click="BtnSaveTransaction_OnClick">
+                    Command="{Binding SaveCommand}">
 
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -267,7 +267,7 @@
             
             <TextBox FontSize="20" Width="350" Height="100" HorizontalAlignment="Left" Margin="5"
                      TextWrapping="Wrap" AcceptsReturn="True" HorizontalScrollBarVisibility="Disabled"
-                     VerticalScrollBarVisibility="Auto"/>
+                     VerticalScrollBarVisibility="Auto" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
             
             <!-- Save btn -->
             <Button Content="Save"
@@ -277,8 +277,8 @@
                     Width="200"
                     Foreground="#FFFFFF"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Click="BtnSaveTransaction_OnClick">
+                    VerticalAlignment="Top"
+                    Command="{Binding SaveCommand}">
 
                 <Button.Template>
                     <ControlTemplate TargetType="Button">

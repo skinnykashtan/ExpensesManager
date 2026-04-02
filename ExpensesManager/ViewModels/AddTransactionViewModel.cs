@@ -1,21 +1,33 @@
 ﻿using System.Collections;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using ExpensesManager.CustomControls;
+using ExpensesManager.Interfaces;
 using ExpensesManager.Models;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace ExpensesManager.ViewModels;
 
 public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
 {
+    private readonly ITransactionRepository _transactionRepository;
+
+    public AddTransactionViewModel(ITransactionRepository context)
+    {
+        _transactionRepository = context;
+        SaveCommand = new AsyncRelayCommand(Save);
+    }
+    
     public List<TransactionType> TransactionTypes { get; } =
         Enum.GetValues<TransactionType>().ToList();
 
-    public List<IncomeSource> Sources { get; } = 
+    public List<IncomeSource> Sources { get; } =
         Enum.GetValues<IncomeSource>().ToList();
-    
-    public List<ExpenseCategory> Categories { get; } = 
+
+    public List<ExpenseCategory> Categories { get; } =
         Enum.GetValues<ExpenseCategory>().ToList();
-    
+
     private readonly Dictionary<string, List<string>> _errors = new();
 
     private TransactionType _selectedTransactionType = TransactionType.Expense;
@@ -23,15 +35,26 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
     private string _amountText = string.Empty;
     private DateTime? _selectedDate;
     private ExpenseCategory? _selectedCategory;
+    private string _description = string.Empty;
+
+    public string Description
+    {
+        get => _description;
+        set
+        {
+            _description = value;
+            NotifyPropertyChanged();
+        }
+    }
 
     public TransactionType SelectedTransactionType
     {
         get => _selectedTransactionType;
-        
+
         set
         {
             if (value == _selectedTransactionType) return;
-            
+
             _selectedTransactionType = value;
             ResetFieldsForTransactionType();
             NotifyPropertyChanged();
@@ -53,7 +76,7 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
             {
                 AddError(nameof(SelectedSource), "source is required");
             }
-            
+
             NotifyPropertyChanged();
         }
     }
@@ -72,7 +95,7 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
             {
                 AddError(nameof(SelectedCategory), "category is required");
             }
-            
+
             NotifyPropertyChanged();
         }
     }
@@ -84,11 +107,11 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-    
+
     public string AmountText
     {
         get => _amountText;
-        
+
         set
         {
             if (_amountText == value) return;
@@ -108,6 +131,7 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
             {
                 AddError(nameof(AmountText), "must be greater than zero");
             }
+
             NotifyPropertyChanged();
         }
     }
@@ -122,11 +146,12 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
 
             _selectedDate = value;
             ClearErrors(nameof(SelectedDate));
-            
+
             if (value == null)
             {
                 AddError(nameof(SelectedDate), "select valid date");
             }
+
             NotifyPropertyChanged();
         }
     }
@@ -136,7 +161,7 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         if (_errors.ContainsKey(propertyName))
         {
             _errors.Remove(propertyName);
-            
+
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
     }
@@ -147,9 +172,9 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         {
             _errors[propertyName] = new List<string>();
         }
-        
+
         _errors[propertyName].Add(error);
-        
+
         ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }
 
@@ -172,7 +197,7 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         {
             SelectedCategory = null;
             ClearErrors(nameof(SelectedCategory));
-        } 
+        }
         else if (SelectedTransactionType == TransactionType.Expense)
         {
             SelectedSource = null;
@@ -189,13 +214,14 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
 
         if (string.IsNullOrWhiteSpace(AmountText))
         {
-            AddError(nameof(AmountText), "field is required");    
+            AddError(nameof(AmountText), "field is required");
         }
+
         if (SelectedDate == null)
         {
             AddError(nameof(SelectedDate), "date is required");
         }
-        
+
         if (SelectedTransactionType == TransactionType.Income && SelectedSource == null)
         {
             AddError(nameof(SelectedSource), "source is required");
@@ -207,5 +233,27 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         }
 
         return !HasErrors;
+    }
+
+    public ICommand SaveCommand { get; }
+
+    private async Task Save()
+    {
+        if (!Validate())
+        {
+            return;
+        }
+
+        Transaction transaction = new Transaction()
+        {
+            Amount = decimal.Parse(AmountText),
+            Category = SelectedCategory,
+            Date = SelectedDate.Value,
+            Description = Description?.Trim() ?? string.Empty,
+            Source = SelectedSource,
+            Type = SelectedTransactionType
+        };
+
+        await _transactionRepository.AddTransactionAsync(transaction);
     }
 }

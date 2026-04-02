@@ -1,3 +1,4 @@
+using System.IO;
 using ExpensesManager.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,10 +6,11 @@ namespace ExpensesManager.Data;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Transaction> Transactions => Set<Transaction>();
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        optionsBuilder.UseSqlite("Data Source=./Data/app.db");
+        
     }
+    
+    public DbSet<Transaction> Transactions => Set<Transaction>();
+    
 }
