@@ -12,10 +12,12 @@ namespace ExpensesManager.ViewModels;
 public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorInfo
 {
     private readonly ITransactionRepository _transactionRepository;
+    private readonly SidePanelViewModel _sidePanelViewModel;
 
-    public AddTransactionViewModel(ITransactionRepository context)
+    public AddTransactionViewModel(ITransactionRepository transactionRepository, SidePanelViewModel sidePanelViewModel)
     {
-        _transactionRepository = context;
+        _transactionRepository = transactionRepository;
+        _sidePanelViewModel = sidePanelViewModel;
         SaveCommand = new AsyncRelayCommand(Save);
     }
     
@@ -255,5 +257,7 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         };
 
         await _transactionRepository.AddTransactionAsync(transaction);
+
+        await _sidePanelViewModel.LoadSumsAsync();
     }
 }

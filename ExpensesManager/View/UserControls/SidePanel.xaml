@@ -36,19 +36,19 @@
                     
                     <TextBlock Text="Total Income" FontSize="18" Margin="10,30,0,0"
                                FontWeight="DemiBold"/>
-                    <TextBlock Grid.Row="1" Text="+3000" Margin="10,5" Foreground="#16A34A"
+                    <TextBlock Grid.Row="1" Text="{Binding TotalIncome}" Margin="10,5" Foreground="#16A34A"
                                FontSize="15" FontWeight="DemiBold"/>
                     
                     <TextBlock Grid.Row="2" Text="Total Expenses" FontSize="18" Margin="10,15,0,0"
                                FontWeight="DemiBold"/>
-                    <TextBlock Grid.Row="3" Text="-1000" Margin="10,5" Foreground="#E61818"
+                    <TextBlock Grid.Row="3" Text="{Binding TotalExpenses}" Margin="10,5" Foreground="#E61818"
                                FontSize="15" FontWeight="DemiBold"/>
                     
                     <Border Grid.Row="4" Margin="30,10,30,0" Height="3" Background="#D6E2EC"
                             />
                     
                     <TextBlock Grid.Row="5" Text="Total Balance" FontSize="26" FontWeight="DemiBold" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                    <TextBlock Grid.Row="6" HorizontalAlignment="Center" FontSize="22" FontWeight="DemiBold" Text="+2000" Foreground="#16A34A"/>
+                    <TextBlock Grid.Row="6" HorizontalAlignment="Center" FontSize="22" FontWeight="DemiBold" Text="{Binding TotalBalance}" Foreground="#16A34A"/>
                     
                     <TextBlock Grid.Row="8" Text="Top 3 Categories" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                     

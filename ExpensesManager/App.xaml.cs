@@ -9,6 +9,7 @@ using ExpensesManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using ExpensesManager.View.Windows;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ExpensesManager;
 
@@ -35,8 +36,10 @@ public partial class App : Application
 
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<MainWindow>();
+        services.AddScoped<MainViewModel>();
         services.AddScoped<SecondWindow>();
         services.AddScoped<AddTransactionViewModel>();
+        services.AddScoped<SidePanelViewModel>();
 
         Services = services.BuildServiceProvider();
 

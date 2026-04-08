@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using ExpensesManager.View.Windows;
+using ExpensesManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ExpensesManager.View.UserControls;

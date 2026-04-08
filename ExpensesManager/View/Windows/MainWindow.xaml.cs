@@ -15,12 +15,22 @@ using Microsoft.Win32;
 
 namespace ExpensesManager.View.Windows;
 
-public partial class MainWindow : Window 
+public partial class MainWindow : Window
 {
-    public MainWindow(AddTransactionViewModel vm)
+    private readonly MainViewModel _vm;
+    
+    public MainWindow(MainViewModel vm)
     {
         InitializeComponent();
+        _vm = vm;
         DataContext = vm;
+
+        Loaded += MainWindow_Loaded;
+    }
+
+    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        await _vm.SidePanelViewModel.LoadSumsAsync();
     }
 }
     

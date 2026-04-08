@@ -29,7 +29,7 @@
             
             <Grid Grid.Column="0"/>
             
-            <userControls:SidePanel Grid.Column="1" Margin="45"/>
+            <userControls:SidePanel DataContext="{Binding SidePanelViewModel}" Grid.Column="1" Margin="45"/>
         </Grid>
     </Grid>
 </Window>
