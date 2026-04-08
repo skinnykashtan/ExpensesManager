@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:ExpensesManager.View.UserControls"
+             xmlns:customControls="clr-namespace:ExpensesManager.CustomControls"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="230">
+    <UserControl.Resources>
+        <customControls:BalanceToColorConverter x:Key="BalanceColorConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Border
                     CornerRadius="12"
@@ -48,7 +52,9 @@
                             />
                     
                     <TextBlock Grid.Row="5" Text="Total Balance" FontSize="26" FontWeight="DemiBold" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                    <TextBlock Grid.Row="6" HorizontalAlignment="Center" FontSize="22" FontWeight="DemiBold" Text="{Binding TotalBalance}" Foreground="#16A34A"/>
+                    <TextBlock Grid.Row="6" HorizontalAlignment="Center" FontSize="22"
+                               FontWeight="DemiBold" Text="{Binding TotalBalance}"
+                               Foreground="{Binding TotalBalance, Converter={StaticResource BalanceColorConverter}}"/>
                     
                     <TextBlock Grid.Row="8" Text="Top 3 Categories" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                     

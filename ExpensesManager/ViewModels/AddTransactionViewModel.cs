@@ -252,7 +252,7 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         {
             Amount = decimal.Parse(AmountText),
             Category = SelectedCategory,
-            Date = SelectedDate.Value,
+            Date = SelectedDate.Value.Date,
             Description = Description?.Trim() ?? string.Empty,
             Source = SelectedSource,
             Type = SelectedTransactionType
