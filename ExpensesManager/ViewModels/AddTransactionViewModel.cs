@@ -13,11 +13,13 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
 {
     private readonly ITransactionRepository _transactionRepository;
     private readonly SidePanelViewModel _sidePanelViewModel;
+    private readonly TransactionsListViewModel _transactionsListViewModel;
 
-    public AddTransactionViewModel(ITransactionRepository transactionRepository, SidePanelViewModel sidePanelViewModel)
+    public AddTransactionViewModel(ITransactionRepository transactionRepository, SidePanelViewModel sidePanelViewModel, TransactionsListViewModel transactionsListViewModel)
     {
         _transactionRepository = transactionRepository;
         _sidePanelViewModel = sidePanelViewModel;
+        _transactionsListViewModel = transactionsListViewModel;
         SaveCommand = new AsyncRelayCommand(Save);
     }
     
@@ -259,5 +261,6 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         await _transactionRepository.AddTransactionAsync(transaction);
 
         await _sidePanelViewModel.LoadSumsAsync();
+        await _transactionsListViewModel.LoadTransactionsAsync();
     }
 }

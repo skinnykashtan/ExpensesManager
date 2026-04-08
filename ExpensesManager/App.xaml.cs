@@ -5,6 +5,7 @@ using System.Windows;
 using ExpensesManager.Data;
 using ExpensesManager.Interfaces;
 using ExpensesManager.Repository;
+using ExpensesManager.View.UserControls;
 using ExpensesManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using ExpensesManager.View.Windows;
@@ -40,6 +41,8 @@ public partial class App : Application
         services.AddScoped<SecondWindow>();
         services.AddScoped<AddTransactionViewModel>();
         services.AddScoped<SidePanelViewModel>();
+        services.AddScoped<TransactionsListViewModel>();
+        services.AddScoped<TransactionsView>();
 
         Services = services.BuildServiceProvider();
 

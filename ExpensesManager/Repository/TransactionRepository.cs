@@ -33,4 +33,21 @@ public class TransactionRepository : ITransactionRepository
             .Where(t => t.Type == TransactionType.Expense)
             .SumAsync(a => a.Amount);
     }
+
+    public async Task<List<Transaction>> GetAllTransactionsAsync()
+    {
+        return await _context.Transactions
+            .OrderByDescending(t => t.Date)
+            .ToListAsync();
+    }
+
+    public async Task DeleteTransactionAsync(int id)
+    {
+        var transaction = await _context.Transactions.FindAsync(id);
+
+        if (transaction == null) return;
+
+        _context.Transactions.Remove(transaction);
+        await _context.SaveChangesAsync();
+    }
 }
