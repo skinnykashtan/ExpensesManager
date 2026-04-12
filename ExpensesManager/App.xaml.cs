@@ -36,13 +36,14 @@ public partial class App : Application
             options.UseSqlite($"Data Source={dbPath}"));
 
         services.AddScoped<ITransactionRepository, TransactionRepository>();
-        services.AddScoped<MainWindow>();
-        services.AddScoped<MainViewModel>();
-        services.AddScoped<SecondWindow>();
-        services.AddScoped<AddTransactionViewModel>();
-        services.AddScoped<SidePanelViewModel>();
-        services.AddScoped<TransactionsListViewModel>();
-        services.AddScoped<TransactionsView>();
+        services.AddSingleton<MainWindow>();
+        services.AddSingleton<MainViewModel>();
+        services.AddSingleton<SidePanelViewModel>();
+        
+        services.AddTransient<SecondWindow>();
+        services.AddTransient<AddTransactionViewModel>();
+        services.AddTransient<TransactionsListViewModel>();
+        services.AddTransient<TransactionsView>();
 
         Services = services.BuildServiceProvider();
 
