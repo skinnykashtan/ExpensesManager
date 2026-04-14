@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         
         <Border Background="#76ACD9"/>
-        <TextBlock Text="Expense Manager" FontSize="56" Margin="70,0,0,0"
+        <TextBlock Text="ExpensesManager" FontSize="56" Margin="70,0,0,0"
                    Foreground="#FFFFFF" FontWeight="Black" VerticalAlignment="Center"/>
         
         <Grid Grid.Row="1">
@@ -26,9 +26,23 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button VerticalAlignment="Top" HorizontalAlignment="Center" 
-                    Height="30" Width="120" Margin="10" Command="{Binding ShowTransactionsCommand}"
-                    Content="Show Transactions"/>
+            
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="10">
+                <Button Height="30"
+                        Width="140"
+                        Margin="0,0,10,0"
+                        Command="{Binding ShowTransactionsChartCommand}"
+                        Content="Show Chart"/>
+
+                <Button Height="30"
+                        Width="140"
+                        Command="{Binding ShowTransactionsCommand}"
+                        Content="Show Transactions"/>
+            </StackPanel>
+            
             <!-- VIEW -->
             <Grid Grid.Column="0" Margin="45">
                 <Border Background="White" CornerRadius="20" Padding="20">

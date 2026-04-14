@@ -1,19 +1,18 @@
-using System.Windows;
 using System.Windows.Controls;
 using ExpensesManager.ViewModels;
 
 namespace ExpensesManager.View.UserControls;
 
-public partial class TransactionsView : UserControl
+public partial class TransactionsChartView : UserControl
 {
-    public TransactionsView(TransactionsListViewModel vm)
+    public TransactionsChartView(TransactionsListViewModel viewModel)
     {
         InitializeComponent();
-        DataContext = vm;
-        
+        DataContext = viewModel;
+
         Loaded += async (_, _) =>
         {
-            await vm.RefreshAsync();
+            await viewModel.RefreshAsync();
         };
     }
 }

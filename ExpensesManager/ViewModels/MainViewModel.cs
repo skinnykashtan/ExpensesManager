@@ -25,28 +25,45 @@ public class MainViewModel : INotifyPropertyChanged
     }
     
     public ICommand ShowTransactionsCommand { get; }
+    public ICommand ShowTransactionsChartCommand { get; }
 
     private readonly TransactionsView _transactionsView;
+    private readonly TransactionsChartView _transactionsChartView;
     
     public MainViewModel(
         AddTransactionViewModel addTransactionViewModel,
         SidePanelViewModel sidePanelViewModel,
-        TransactionsView transactionsView)
+        TransactionsView transactionsView,
+        TransactionsChartView transactionsChartView)
     {
         AddTransactionViewModel = addTransactionViewModel;
         SidePanelViewModel = sidePanelViewModel;
         _transactionsView = transactionsView;
+        _transactionsChartView = transactionsChartView;
         
         ShowTransactionsCommand = new AsyncRelayCommand(() =>
         {
             ShowTransactions();
             return Task.CompletedTask;
         });
+        
+        ShowTransactionsChartCommand = new AsyncRelayCommand(() =>
+        {
+            ShowTransactionsChart();
+            return Task.CompletedTask;
+        });
+
+        CurrentView = _transactionsChartView;
     }
     
     private void ShowTransactions()
     {
         CurrentView = _transactionsView;
+    }
+    
+    private void ShowTransactionsChart()
+    {
+        CurrentView = _transactionsChartView;
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

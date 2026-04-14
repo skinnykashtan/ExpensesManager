@@ -261,6 +261,6 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         await _transactionRepository.AddTransactionAsync(transaction);
 
         await _sidePanelViewModel.LoadSumsAsync();
-        await _transactionsListViewModel.LoadTransactionsAsync();
+        await _transactionsListViewModel.RefreshAsync();
     }
 }
