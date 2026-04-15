@@ -29,7 +29,6 @@ public class SidePanelViewModel : INotifyPropertyChanged
     }
 
     private decimal _totalExpenses;
-
     public decimal TotalExpenses
     {
         get => _totalExpenses;
@@ -51,7 +50,7 @@ public class SidePanelViewModel : INotifyPropertyChanged
             _totalBalance = value;
             NotifyPropertyChanged();
         }
-    }
+    } 
 
     public async Task LoadTopCategoriesAsync()
     {

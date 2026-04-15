@@ -72,27 +72,8 @@ public class TransactionsListViewModel : INotifyPropertyChanged
             NotifyPropertyChanged();
         }
     }
-
-    private bool _isLoaded;
+    
     private bool _isLoading;
-    public async Task LoadAsync()
-    {
-        if (_isLoaded || _isLoading) return;
-
-        _isLoading = true;
-
-        try
-        {
-            await LoadTransactionsAsync();
-            BuildChartFromTransactions();
-            _isLoaded = true;
-        }
-        finally
-        {
-            _isLoading = false;
-        }
-    }
-
     public async Task RefreshAsync()
     {
         if (_isLoading) return;
@@ -115,7 +96,6 @@ public class TransactionsListViewModel : INotifyPropertyChanged
         Transactions.Clear();
 
         var items = await _transactionRepository.GetAllTransactionsAsync();
-
         foreach (var item in items.OrderBy(t => t.Date))
         {
             Transactions.Add(item);

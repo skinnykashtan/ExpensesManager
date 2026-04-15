@@ -12,10 +12,28 @@ public partial class SidePanel : UserControl
     {
         InitializeComponent();
     }
+    
+    private SecondWindow? _addTransactionWindow;
 
     private void BtnAddTransaction_OnClick(object sender, RoutedEventArgs e)
     {
-        var win2 = App.Services.GetRequiredService<SecondWindow>();
-        win2.Show();
+        if (_addTransactionWindow != null)
+        {
+            if (_addTransactionWindow.WindowState == WindowState.Minimized)
+                _addTransactionWindow.WindowState = WindowState.Normal;
+
+            _addTransactionWindow.Activate();
+            return;
+        }
+
+        _addTransactionWindow = App.Services.GetRequiredService<SecondWindow>();
+        _addTransactionWindow.Owner = Window.GetWindow(this);
+
+        _addTransactionWindow.Closed += (_, _) =>
+        {
+            _addTransactionWindow = null;
+        };
+
+        _addTransactionWindow.Show();
     }
 }

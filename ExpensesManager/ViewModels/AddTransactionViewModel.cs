@@ -242,26 +242,16 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
     }
 
     public ICommand SaveCommand { get; }
-
     private async Task Save()
     {
         if (!Validate())
         {
             return;
         }
-        
-        decimal amount;
-
-        if (!decimal.TryParse(AmountText, NumberStyles.Any, CultureInfo.CurrentCulture, out amount) &&
-            !decimal.TryParse(AmountText, NumberStyles.Any, CultureInfo.InvariantCulture, out amount))
-        {
-            MessageBox.Show("Invalid amount format");
-            return;
-        }
 
         Transaction transaction = new Transaction()
         {
-            Amount = amount,
+            Amount = decimal.Parse(AmountText),
             Category = SelectedCategory,
             Date = SelectedDate.Value.Date,
             Description = Description?.Trim() ?? string.Empty,
