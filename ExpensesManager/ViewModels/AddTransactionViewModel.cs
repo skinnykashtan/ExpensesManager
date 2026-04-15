@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using ExpensesManager.CustomControls;
 using ExpensesManager.Interfaces;
@@ -247,10 +249,19 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
         {
             return;
         }
+        
+        decimal amount;
+
+        if (!decimal.TryParse(AmountText, NumberStyles.Any, CultureInfo.CurrentCulture, out amount) &&
+            !decimal.TryParse(AmountText, NumberStyles.Any, CultureInfo.InvariantCulture, out amount))
+        {
+            MessageBox.Show("Invalid amount format");
+            return;
+        }
 
         Transaction transaction = new Transaction()
         {
-            Amount = decimal.Parse(AmountText),
+            Amount = amount,
             Category = SelectedCategory,
             Date = SelectedDate.Value.Date,
             Description = Description?.Trim() ?? string.Empty,
@@ -260,7 +271,8 @@ public class AddTransactionViewModel : INotifyPropertyChanged, INotifyDataErrorI
 
         await _transactionRepository.AddTransactionAsync(transaction);
 
-        await _sidePanelViewModel.LoadSumsAsync();
         await _transactionsListViewModel.RefreshAsync();
+        await _sidePanelViewModel.LoadSumsAsync();
+        await _sidePanelViewModel.LoadTopCategoriesAsync();
     }
 }

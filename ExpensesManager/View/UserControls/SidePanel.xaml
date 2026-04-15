@@ -56,17 +56,28 @@
                                FontWeight="DemiBold" Text="{Binding TotalBalance}"
                                Foreground="{Binding TotalBalance, Converter={StaticResource BalanceColorConverter}}"/>
                     
-                    <TextBlock Grid.Row="8" Text="Top 3 Categories" FontSize="20" FontWeight="DemiBold" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                    <TextBlock Grid.Row="7" Text="Top Categories" FontSize="26" FontWeight="DemiBold" HorizontalAlignment="Center" Margin="0,30,0,0"/>
                     
-                    <Border Grid.Row="9" Margin="30,10,30,0" Height="3" Background="#D6E2EC"
-                    />
-                    
-                    <TextBlock Grid.Row="10" Text="1. Food" FontSize="18"
-                               FontWeight="DemiBold" Margin="35,5,0,0"/>
-                    <TextBlock Grid.Row="11" Text="2. Transport" FontSize="18"
-                               FontWeight="DemiBold" Margin="35,5,0,0"/>
-                    <TextBlock Grid.Row="12" Text="3. Health" FontSize="18"
-                               FontWeight="DemiBold" Margin="35,5,0,0"/>
+                    <ItemsControl Grid.Row="10" ItemsSource="{Binding TopCategories}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="35,5,0,0">
+                
+                                    <!-- Numer -->
+                                    <TextBlock Text="{Binding Rank}" 
+                                               FontSize="18"
+                                               FontWeight="DemiBold"
+                                               Width="25"/>
+
+                                    <!-- Kategoria -->
+                                    <TextBlock Text="{Binding CategoryName}" 
+                                               FontSize="18"
+                                               FontWeight="DemiBold"/>
+                
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     
                     <Button Grid.Row="13" Name="btnAddTransaction" Content="+ Add Transaction"
                             Margin="0,15,0,0"

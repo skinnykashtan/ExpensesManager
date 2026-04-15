@@ -31,6 +31,7 @@ public partial class MainWindow : Window
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
         await _vm.SidePanelViewModel.LoadSumsAsync();
+        await _vm.SidePanelViewModel.LoadTopCategoriesAsync();
     }
 }
     

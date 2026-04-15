@@ -187,8 +187,9 @@ public class TransactionsListViewModel : INotifyPropertyChanged
         {
             await _transactionRepository.DeleteTransactionAsync(transaction.Id);
             Transactions.Remove(transaction);
+            await RefreshAsync();
             await _sidePanelViewModel.LoadSumsAsync();
-            BuildChartFromTransactions();
+            await _sidePanelViewModel.LoadTopCategoriesAsync();
         }
     }
     

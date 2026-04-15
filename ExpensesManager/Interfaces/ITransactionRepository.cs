@@ -1,3 +1,4 @@
+using ExpensesManager.DTOs;
 using ExpensesManager.Models;
 
 namespace ExpensesManager.Interfaces;
@@ -9,4 +10,5 @@ public interface ITransactionRepository
     Task<decimal> GetTotalExpensesAsync();
     Task<List<Transaction>> GetAllTransactionsAsync();
     Task DeleteTransactionAsync(int id);
+    Task<List<TopCategoryDto>> GetTopExpenseCategoriesAsync(int count);
 }

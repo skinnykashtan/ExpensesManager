@@ -1,4 +1,5 @@
 using ExpensesManager.Data;
+using ExpensesManager.DTOs;
 using ExpensesManager.Interfaces;
 using ExpensesManager.Models;
 using Microsoft.EntityFrameworkCore;
@@ -49,5 +50,23 @@ public class TransactionRepository : ITransactionRepository
 
         _context.Transactions.Remove(transaction);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<TopCategoryDto>> GetTopExpenseCategoriesAsync(int count)
+    {
+        var data = await _context.Transactions
+            .Where(t => t.Type == TransactionType.Expense)
+            .GroupBy(t => t.Category)
+            .Select(g => new TopCategoryDto
+            {
+                CategoryName = g.Key.ToString(),
+                TotalAmount = g.Sum(x => x.Amount)
+            })
+            .ToListAsync();
+
+        return data
+            .OrderByDescending(x => x.TotalAmount)
+            .Take(count)
+            .ToList();
     }
 }

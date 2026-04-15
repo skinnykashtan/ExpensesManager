@@ -1,5 +1,7 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ExpensesManager.DTOs;
 using ExpensesManager.Interfaces;
 
 namespace ExpensesManager.ViewModels;
@@ -7,6 +9,7 @@ namespace ExpensesManager.ViewModels;
 public class SidePanelViewModel : INotifyPropertyChanged
 {
     private readonly ITransactionRepository _transactionRepository;
+    public ObservableCollection<TopCategoryDto> TopCategories { get; } = new();
     
     public SidePanelViewModel(ITransactionRepository transactionRepository)
     {
@@ -47,6 +50,21 @@ public class SidePanelViewModel : INotifyPropertyChanged
             if (_totalBalance == value) return;
             _totalBalance = value;
             NotifyPropertyChanged();
+        }
+    }
+
+    public async Task LoadTopCategoriesAsync()
+    {
+        var topCategories = await _transactionRepository.GetTopExpenseCategoriesAsync(5);
+        
+        TopCategories.Clear();
+
+        int rank = 1;
+
+        foreach (var item in topCategories)
+        {
+            item.Rank = rank++;
+            TopCategories.Add(item);
         }
     }
 
