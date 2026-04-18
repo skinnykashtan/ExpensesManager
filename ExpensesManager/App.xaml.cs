@@ -48,6 +48,12 @@ public partial class App : Application
         services.AddTransient<TransactionsChartView>();
 
         Services = services.BuildServiceProvider();
+        
+        using (var scope = Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            db.Database.Migrate();
+        }
 
         var mainWindow = Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
